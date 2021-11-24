@@ -3,12 +3,8 @@
   "version": "0.0.58",
   "description": "Use classes to handle state in vuejs. This is a webpack plugin that will generate type definitions and globally init your stores.\n\nTopics\nResources\n",
   "scripts": {
-    "build": "webpack --mode=development",
-    "prod": "webpack --mode=production",
-    "watch": "webpack --watch --mode=development",
     "build-package": "tsc --build tsconfig.prod.json --clean && tsc --build tsconfig.prod.json",
     "build-package-watch": "tsc --build tsconfig.prod.json --clean && tsc --build tsconfig.prod.json --watch",
-    "test": "jest",
     "postpublish": "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag $PACKAGE_VERSION && git push --tags",
     "generate-class-stores": "node generate.js",
     "generate-dev": "node dist/generate.js",

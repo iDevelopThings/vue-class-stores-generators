@@ -1,0 +1,9 @@
+{{imports}}
+
+export const VueClassStoresPlugin = {
+	install : (app, options) => {
+{{definitions}}
+	}
+};
+
+

@@ -1,0 +1,16 @@
+/** @type {{{name}}} */
+export const {{globalName}} = new {{name}}();
+export const {{name}}Symbol = Symbol();
+
+/**
+ * @returns {{{name}}}
+ */
+export function use{{name}}() : {{name}} {
+	const store = inject({{name}}Symbol);
+
+	if (!store) {
+		throw new Error('No {{name}} provided!');
+	}
+
+	return store as {{name}};
+}
