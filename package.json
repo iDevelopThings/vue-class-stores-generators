@@ -13,7 +13,8 @@
   "main": "index.js",
   "types": "index.d.ts",
   "bin": {
-    "vue-class-stores-generate": "bin/vue-class-stores-generate.js"
+    "vue-class-stores-generate": "bin/vue-class-stores-generate.js",
+    "watch-stores": "bin/watch-stores.js"
   },
   "keywords": [],
   "repository": {
