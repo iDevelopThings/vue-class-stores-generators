@@ -84,7 +84,7 @@ export class PluginManager {
 
 		template = template
 			.replaceAll('{{pluginPath}}', pluginPath)
-			.replaceAll('{{storeManagerImport}}', correctPackageImportName(path.join('..', '..', '..', '..', 'dist')));
+			.replaceAll('{{storeManagerImport}}', 'vue-class-stores'/*correctPackageImportName(path.join('..', '..', '..', '..', 'dist'))*/);
 
 		writeFile(Configuration.storeClassFilePath, template);
 	}

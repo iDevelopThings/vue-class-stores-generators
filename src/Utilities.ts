@@ -88,15 +88,16 @@ export const camelize = (str) => {
 export const correctPackageImportName = (importString: string) => {
 	let importStringResponse = importString;
 
-	//Hacky fix to properly reference the packages directory
-	if (!process.cwd().includes('/Packages/VueClassStore')) {
-		importStringResponse = 'vue-class-stores-generators';
-	}
+//	//Hacky fix to properly reference the packages directory
+//	if (!process.cwd().includes('/Packages/VueClassStore')) {
+//		importStringResponse = 'vue-class-stores-generators';
+//	}
 
-	if (importStringResponse.endsWith('vite-apptest') || importStringResponse.endsWith('apptest')) {
-		importStringResponse = importStringResponse.replace('/vite-apptest', '');
-		importStringResponse = importStringResponse.replace('/apptest', '');
-	}
+//	if (importStringResponse.endsWith('vite-apptest') || importStringResponse.endsWith('apptest')) {
+//		importStringResponse = importStringResponse.replace('/vite-apptest', '');
+//		importStringResponse = importStringResponse.replace('/apptest', '');
+//	}
+
 	return importStringResponse;
 };
 
