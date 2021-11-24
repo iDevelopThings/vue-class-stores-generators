@@ -1,0 +1,46 @@
+{
+  "name": "vue-class-stores-generators",
+  "version": "0.0.58",
+  "description": "Use classes to handle state in vuejs. This is a webpack plugin that will generate type definitions and globally init your stores.\n\nTopics\nResources\n",
+  "scripts": {
+    "build": "webpack --mode=development",
+    "prod": "webpack --mode=production",
+    "watch": "webpack --watch --mode=development",
+    "build-package": "tsc --build tsconfig.prod.json --clean && tsc --build tsconfig.prod.json",
+    "build-package-watch": "tsc --build tsconfig.prod.json --clean && tsc --build tsconfig.prod.json --watch",
+    "test": "jest",
+    "postpublish": "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag $PACKAGE_VERSION && git push --tags",
+    "generate-class-stores": "node generate.js",
+    "generate-dev": "node dist/generate.js",
+    "deploy-update": "./dist.sh"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "vue-class-stores-generate": "bin/vue-class-stores-generate.js"
+  },
+  "keywords": [],
+  "repository": {
+    "url": "https://github.com/iDevelopThings/vue-class-stores-generators",
+    "type": "github"
+  },
+  "author": {
+    "name": "iDevelopThings",
+    "url": "https://github.com/iDevelopThings"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "semver": "^7.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.10",
+    "@vue/composition-api": "^1.4.0",
+    "typescript": "^4.5.2"
+  },
+  "vue-class-stores": {
+    "usingTypescript": true,
+    "shortVueDeclaration": true,
+    "pluginDirectory": "apptest/Stores/Plugin",
+    "storesDirectory": "apptest/Stores"
+  }
+}
