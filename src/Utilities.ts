@@ -90,7 +90,7 @@ export const correctPackageImportName = (importString: string) => {
 
 	//Hacky fix to properly reference the packages directory
 	if (!process.cwd().includes('/Packages/VueClassStore')) {
-		importStringResponse = 'vue-class-stores';
+		importStringResponse = 'vue-class-stores-generators';
 	}
 
 	if (importStringResponse.endsWith('vite-apptest') || importStringResponse.endsWith('apptest')) {
@@ -105,7 +105,7 @@ export const getTemplate = (name: string, vueVersion: number) => {
 
 	//Hacky fix to properly reference the packages directory
 	if (!rootPackageDir.includes('/Packages/VueClassStore')) {
-		rootPackageDir = path.join(process.cwd(), 'node_modules', 'vue-class-stores');
+		rootPackageDir = path.join(process.cwd(), 'node_modules', 'vue-class-stores-generators');
 	}
 
 	if (rootPackageDir.endsWith('vite-apptest') || rootPackageDir.endsWith('apptest')) {
