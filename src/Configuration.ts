@@ -64,13 +64,22 @@ export class Configuration {
 		this.fileExtension       = '.js';
 
 		if (configuration === undefined) {
-			const packageJsonConfig = packageJson["vue-class-stores"];
-			if (packageJsonConfig !== undefined) {
-				configuration = packageJsonConfig;
+			if(this.hasPackageJsonConfig()) {
+				configuration = this.getPackageJsonConfig();
 			}
 		}
 
 		this.setupConfiguration(configuration);
+	}
+
+	public static getPackageJsonConfig() {
+		return packageJson["vue-class-stores"] || {};
+	}
+
+	public static hasPackageJsonConfig() {
+		const packageJsonConfig = packageJson["vue-class-stores"];
+
+		return packageJsonConfig !== undefined;
 	}
 
 	public static set(key: keyof ConfigurationManagerConfiguration, value: any) {
