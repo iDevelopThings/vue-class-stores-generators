@@ -41,6 +41,9 @@ export function generate(compilation?: any, configuration?: PluginConfiguration)
 	StoreManager.generateTypeDefs();
 
 	PluginManager.generatePlugin();
+
+
+	console.log('Re-generated vue-class-store files.');
 }
 
 export function watch(configuration?: PluginConfiguration) {
@@ -52,6 +55,8 @@ export function watch(configuration?: PluginConfiguration) {
 	Configuration.setConfiguration(configuration);
 
 	StoreManager.loadStores();
+
+	generate(undefined, configuration);
 
 	const watcher = chokidar.watch(Configuration.storesPath, {
 		ignoreInitial : true,
@@ -68,8 +73,6 @@ export function watch(configuration?: PluginConfiguration) {
 			return;
 		}
 
-		generate(undefined, this.configuration);
-
-		console.log('Re-generated vue-class-store files.');
+		generate(undefined, configuration);
 	});
 }
