@@ -138,3 +138,22 @@ export const isInternallyGeneratedFile = file => {
 
 	return false;
 };
+
+/**
+ * On unix file separators are / on windows they're \
+ *
+ * This means we need to convert the separators to / on windows for file paths.
+
+ * @param filePath
+ */
+export const convertPathToImport = (filePath: string): string => {
+	if (!filePath.includes('\\')) {
+		return filePath;
+	}
+
+	while (filePath.includes('\\')) {
+		filePath = filePath.replace(path.sep, '/');
+	}
+
+	return filePath;
+};

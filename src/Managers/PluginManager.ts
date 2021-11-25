@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs";
 import {Configuration} from "../Configuration";
 import {StoreManager} from "./StoreManager";
-import {correctPackageImportName, getTemplate, writeFile} from "../Utilities";
+import {convertPathToImport, correctPackageImportName, getTemplate, writeFile} from "../Utilities";
 
 export type PluginStoreImportsObject = {
 	moduleName: string;
@@ -17,10 +17,10 @@ export class PluginManager {
 	public static pluginStoreImportsObject(): PluginStoreImportsObject[] {
 		return StoreManager.stores
 			.map(m => {
-				const storePath = path.relative(
+				const storePath = convertPathToImport(path.relative(
 					path.resolve(...Configuration.pluginDirectory.split(path.sep)),
 					m.absolutePath,
-				).replace(Configuration.fileExtension, '');
+				).replace(Configuration.fileExtension, ''));
 
 				return {
 					moduleName : m.name,
@@ -32,7 +32,7 @@ export class PluginManager {
 	public static generatePluginStoreImports() {
 		this.pluginStoreImports = this.pluginStoreImportsObject()
 			.map(m => {
-				return `import {${m.moduleName}} from "${m.importPath}";`;
+				return `import {${m.moduleName}} from "${convertPathToImport(m.importPath)}";`;
 			})
 			.join("\n");
 
@@ -42,7 +42,7 @@ export class PluginManager {
 			fileNamesImport.push(...StoreManager.stores.map(m => m.name + 'Symbol'));
 		}
 
-		this.vuePluginStoreImports = `import {${fileNamesImport.join(', ')}} from "./${Configuration.fileNames(false).stores}"; \n`;
+		this.vuePluginStoreImports = `import {${fileNamesImport.join(', ')}} from "./${convertPathToImport(Configuration.fileNames(false).stores)}"; \n`;
 	}
 
 	public static generatePlugin() {
