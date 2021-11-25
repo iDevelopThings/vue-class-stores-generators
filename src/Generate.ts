@@ -5,7 +5,7 @@ import chokidar from 'chokidar';
 import {isInternallyGeneratedFile} from "./Utilities";
 
 export function generate(compilation?: any, configuration?: PluginConfiguration) {
-	if (!Configuration.hasPackageJsonConfig()) {
+	if (!Configuration.hasPackageJsonConfig() && Object.keys(configuration || {}).length === 0) {
 		console.warn('You do not have config set in package.json file. Please add the config values there also, read the docs for more info.');
 		return;
 	}

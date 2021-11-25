@@ -113,7 +113,7 @@ export class Configuration {
 		this.storesPath    = this.resolvePathFromRoot(this.storesDirectory);
 		this.pluginPath    = this.resolvePathFromRoot(this.pluginDirectory);
 
-		const fileNames = this.fileNames(true);
+		const fileNames = this.fileNames(true, true);
 
 		this.storesFilePath                      = this.resolvePathFromRoot(fileNames.stores);
 		this.definitionsFilePath                 = this.resolvePathFromRoot(fileNames.definitions);
