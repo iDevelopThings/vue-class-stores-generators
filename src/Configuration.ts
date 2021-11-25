@@ -37,6 +37,8 @@ export type ConfigurationManagerConfiguration = {
 
 export class Configuration {
 
+	public static projectRoot = null;
+
 	public static usingTypescript: boolean;
 	public static pluginDirectory: string;
 	public static storesDirectory: string;
@@ -54,17 +56,17 @@ export class Configuration {
 	public static storeClassFilePath?: string;
 
 	public static setConfiguration(configuration?: PluginConfiguration) {
-
+		this.projectRoot         = process.cwd();
 		this.usingTypescript     = false;
-		this.pluginDirectory     = path.join('src', 'Stores', 'Plugin');
-		this.storesDirectory     = path.join('src', 'Stores');
+		this.pluginDirectory     = path.join(this.projectRoot, 'src', 'Stores', 'Plugin');
+		this.storesDirectory     = path.join(this.projectRoot, 'src', 'Stores');
 		this.shortVueDeclaration = false;
 		this.versionManager      = new VueVersionManager();
 		this.vueVersion          = VueVersionManager.get().getVersion();
 		this.fileExtension       = '.js';
 
 		if (configuration === undefined) {
-			if(this.hasPackageJsonConfig()) {
+			if (this.hasPackageJsonConfig()) {
 				configuration = this.getPackageJsonConfig();
 			}
 		}
@@ -87,6 +89,10 @@ export class Configuration {
 		this[key] = value;
 	}
 
+	private static resolvePathFromRoot(p: string): string {
+		return path.resolve(path.join(this.projectRoot, ...p.split(path.sep)));
+	}
+
 	private static setupConfiguration(configuration: PluginConfiguration) {
 
 		// Set the main configurations that were passed to the plugin
@@ -104,38 +110,17 @@ export class Configuration {
 
 		// Lets now configure any additional configs
 		this.fileExtension = configuration.usingTypescript ? '.ts' : '.js';
-		this.storesPath    = path.resolve(...this.storesDirectory.split(path.sep));
-		this.pluginPath    = path.resolve(...this.pluginDirectory.split(path.sep));
+		this.storesPath    = this.resolvePathFromRoot(this.storesDirectory);
+		this.pluginPath    = this.resolvePathFromRoot(this.pluginDirectory);
 
-		this.storesFilePath = path.resolve(
-			...this.pluginDirectory.split(path.sep),
-			this.fileNames(true).stores,
-		);
+		const fileNames = this.fileNames(true);
 
-		this.definitionsFilePath = path.resolve(
-			...this.pluginDirectory.split(path.sep),
-			this.fileNames(true).definitions,
-		);
-
-		this.vueStorePluginFilePath = path.resolve(
-			...this.pluginDirectory.split(path.sep),
-			this.fileNames(true).plugin,
-		);
-
-		this.vueCompositionExportsFilePath = path.resolve(
-			...this.pluginDirectory.split(path.sep),
-			this.fileNames(true).vueCompApiExports,
-		);
-
-		this.vueCompositionInstallScriptFilePath = path.resolve(
-			...this.pluginDirectory.split(path.sep),
-			this.fileNames(true).vueCompApi,
-		);
-
-		this.storeClassFilePath = path.resolve(
-			...this.pluginDirectory.split(path.sep),
-			this.fileNames(true).storeClass,
-		);
+		this.storesFilePath                      = this.resolvePathFromRoot(fileNames.stores);
+		this.definitionsFilePath                 = this.resolvePathFromRoot(fileNames.definitions);
+		this.vueStorePluginFilePath              = this.resolvePathFromRoot(fileNames.plugin);
+		this.vueCompositionExportsFilePath       = this.resolvePathFromRoot(fileNames.vueCompApiExports);
+		this.vueCompositionInstallScriptFilePath = this.resolvePathFromRoot(fileNames.vueCompApi);
+		this.storeClassFilePath                  = this.resolvePathFromRoot(fileNames.storeClass);
 	}
 
 	public static fileNames(withExtensions = false, absolutePath = false): FileNames {
