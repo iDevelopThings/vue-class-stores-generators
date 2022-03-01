@@ -1,4 +1,4 @@
-import {WatchStopHandle} from 'vue';
+import {WatchStopHandle, WatchOptions} from 'vue';
 
 // Add this shim here due to conflict with vue3
 export declare module '*.vue' {
@@ -32,4 +32,5 @@ export type StoreWatcher = {
 	property: string;
 	method: string;
 	handle: WatchStopHandle;
+	watchOptions: WatchOptions;
 }

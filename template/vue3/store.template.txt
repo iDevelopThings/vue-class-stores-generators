@@ -1,6 +1,6 @@
 import {StoreManager} from '{{storeManagerImport}}';
 import {StoreModule, StoreWatcher} from './VueClassStoresPluginTypes';
-import {reactive, UnwrapRef, watchEffect} from "vue";
+import {reactive, UnwrapRef, watch, watchEffect} from "vue";
 import {UnwrapNestedRefs} from "@vue/reactivity";
 
 /**
@@ -100,13 +100,12 @@ export abstract class Store<T extends object> {
 			}
 
 			this.watchers.push({
-				property : watcher.property,
-				method   : watcher.method,
-				handle   : watchEffect(() => {
-					this[watcher.method](this.state[watcher.property]);
-
-					return this.state[watcher.property];
-				})
+				property      : watcher.property,
+				method        : watcher.method,
+				watchOptions  : watcher.watchOptions,
+				handle        : watch(() => this.state[watcher.property], (newVal:any, oldVal:any) => {
+					this[watcher.method](newVal, oldVal);
+				}, watcher.watchOptions)
 			});
 		}
 
