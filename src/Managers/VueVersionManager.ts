@@ -1,7 +1,4 @@
-import path from "path";
-
-const semver      = require('semver');
-const packageJson = require(path.resolve(process.cwd(), 'package.json'));
+import PackageJsonFile from "./PackageJsonFile";
 
 let instance: VueVersionManager = null;
 
@@ -9,20 +6,9 @@ export class VueVersionManager {
 	private version: 2 | 3 = null;
 
 	constructor() {
-		const deps = {...packageJson.dependencies, ...packageJson.devDependencies};
-
-		if (!deps?.vue) {
-			console.error('Vuejs is not found in package.json.\nPlease run:\nnpm install vue@next - for vue 3\nnpm install vue - for vue 2');
-			return;
+		if(PackageJsonFile.canLoadPackageJson()) {
+			this.version = PackageJsonFile.getVuePackageVersion();
 		}
-
-		const version = semver.coerce(deps.vue);
-
-		if (version.major !== 2 && version.major !== 3) {
-			return;
-		}
-
-		this.version = version?.major ?? null;
 
 		instance = this;
 	}
@@ -47,4 +33,7 @@ export class VueVersionManager {
 		return this.getVersion() === null;
 	}
 
+	public setVersion(vueVersion: 2 | 3): void {
+		this.version = vueVersion;
+	}
 }

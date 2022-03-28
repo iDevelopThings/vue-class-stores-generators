@@ -1,7 +1,6 @@
 import path from "path";
+import PackageJsonFile from "./Managers/PackageJsonFile";
 import {VueVersionManager} from "./Managers/VueVersionManager";
-
-const packageJson = require(path.resolve(process.cwd(), 'package.json'));
 
 export type FileNames = {
 	stores: string,
@@ -17,6 +16,7 @@ export type PluginConfiguration = {
 	pluginDirectory?: string;
 	storesDirectory?: string;
 	shortVueDeclaration?: boolean;
+	vueVersion: 2 | 3;
 }
 
 export type ConfigurationManagerConfiguration = {
@@ -56,32 +56,32 @@ export class Configuration {
 	public static storeClassFilePath?: string;
 
 	public static setConfiguration(configuration?: PluginConfiguration) {
+		PackageJsonFile.load();
+
 		this.projectRoot         = process.cwd();
 		this.usingTypescript     = false;
 		this.pluginDirectory     = path.join(this.projectRoot, 'src', 'Stores', 'Plugin');
 		this.storesDirectory     = path.join(this.projectRoot, 'src', 'Stores');
 		this.shortVueDeclaration = false;
+
+		this.versionManager = new VueVersionManager();
+		if(!PackageJsonFile.canLoadPackageJson() && configuration?.vueVersion) {
+			this.versionManager.setVersion(configuration.vueVersion);
+		}
+
 		this.versionManager      = new VueVersionManager();
 		this.vueVersion          = VueVersionManager.get().getVersion();
 		this.fileExtension       = '.js';
 
-		if (configuration === undefined) {
-			if (this.hasPackageJsonConfig()) {
-				configuration = this.getPackageJsonConfig();
-			}
+		if (!configuration && PackageJsonFile.canLoadPackageJson()) {
+			configuration = PackageJsonFile.getPluginConfig();
 		}
 
 		this.setupConfiguration(configuration);
 	}
 
-	public static getPackageJsonConfig() {
-		return packageJson["vue-class-stores"] || {};
-	}
-
 	public static hasPackageJsonConfig() {
-		const packageJsonConfig = packageJson["vue-class-stores"];
-
-		return packageJsonConfig !== undefined;
+		return PackageJsonFile.canLoadPackageJson();
 	}
 
 	public static set(key: keyof ConfigurationManagerConfiguration, value: any) {
