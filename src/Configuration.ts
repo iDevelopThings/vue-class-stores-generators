@@ -65,13 +65,11 @@ export class Configuration {
 		this.shortVueDeclaration = false;
 
 		this.versionManager = new VueVersionManager();
-		if(!PackageJsonFile.canLoadPackageJson() && configuration?.vueVersion) {
+		if (!PackageJsonFile.canLoadPackageJson() && configuration?.vueVersion) {
 			this.versionManager.setVersion(configuration.vueVersion);
 		}
-
-		this.versionManager      = new VueVersionManager();
-		this.vueVersion          = VueVersionManager.get().getVersion();
-		this.fileExtension       = '.js';
+		this.vueVersion    = VueVersionManager.get().getVersion();
+		this.fileExtension = '.js';
 
 		if (!configuration && PackageJsonFile.canLoadPackageJson()) {
 			configuration = PackageJsonFile.getPluginConfig();
