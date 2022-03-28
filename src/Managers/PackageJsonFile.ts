@@ -8,7 +8,7 @@ export class PackageJsonFileManager {
 	public deps: { [key: string]: string } = {};
 
 	load() {
-		if (fs.existsSync(path.resolve(process.cwd(), 'package.json'))) {
+		if (!fs.existsSync(path.resolve(process.cwd(), 'package.json'))) {
 			return;
 		}
 
