@@ -35,6 +35,108 @@ entirely different class/location.
   - [Using the store from outside components](#using-the-store-from-outside-components)
   - [Persisted Stores](#persisted-stores)
 
+## I rewrote a lot of this plugin a while back and totally forgot to re-write docs...
+At some point I will do it properly, but for the most part, I separated a lot of the logic into separate packages... It was causing issues due to the need to support vite + webpack
+
+### Vite:
+```shell
+npm install vite-plugin-vue-class-stores vue-class-stores vue-class-stores-generators
+```
+
+In *vite.config.js*
+- Import `import {viteVueClassStoresPlugin} from 'vite-plugin-vue-class-stores';`
+- Add the following to your config, plugins:
+
+```ts
+viteVueClassStoresPlugin({
+	pluginDirectory     : 'src/Stores/Plugin', // Puts generated files into this dir
+	storesDirectory     : 'src/Stores', // Looks for your store classes in this dir **NOTE: Store files must be suffixed with "Store" or they will not be picked up.
+	shortVueDeclaration : true, // The plugin generates a file with exports, for example, with "AppStore" class, it will use the name "app" for all generated names, if set to false, it will use "appStore".
+	usingTypescript     : true, // don't actually know if the plugin supports js, i only tested with ts.
+	vueVersion          : 3, // Vue 2 or 3.
+}),
+```
+
+In *src/Stores* Create a store class:
+```ts
+import {Store} from "./Plugin/Store";
+
+
+type AppStoreState = {
+	loading: boolean
+}
+
+export class AppStore extends Store<AppStoreState> {
+
+	initialState(): AppStoreState {
+		return {
+			loading : false,
+		};
+	}
+
+	get isLoading() {
+		return this.state.loading;
+	}
+
+	setLoading(state: boolean = true) {
+		this.state.loading = state;
+	}
+
+}
+```
+
+In your main file where vue is setup:
+```ts
+// Note: this path is based on the path your configured in vite.config.js
+import {VueClassStoresPlugin} from "./Stores/Plugin/VueClassStoresPlugin";
+
+const app = createApp(App);
+app.use(VueClassStoresPlugin);
+```
+
+**Note: There is also a vue devtools plugin for viewing your stores:
+```shell
+npm install class-stores-plugin
+```
+
+```ts
+import ClassStoresPlugin, {setupDevtools} from 'class-stores-plugin';
+const app = createApp(App);
+app.use(ClassStoresPlugin);
+app.use(VueClassStoresPlugin);
+app.mount('#app');
+setupDevtools(app, 3); // requires this call for it to work, "3" is your vue version
+```
+
+Run your application...
+
+Now in your vue, you can use your store:
+
+```vue
+<script setup lang="ts">
+import {onMounted} from "vue";
+import {app} from "./Stores/Plugin/VueStores";
+
+onMounted(() => {
+	app.setLoading(true);
+})
+</script>
+
+<template>
+	<div v-if="$app.isLoading">
+		We're loading...
+	</div>
+</template>
+```
+
+You can also use your stores globally from any class
+
+### Webpack:
+```shell
+npm install webpack-plugin-vue-class-stores vue-class-stores vue-class-stores-generators
+```
+
+
 ## Installing the package
 
 ```shell
