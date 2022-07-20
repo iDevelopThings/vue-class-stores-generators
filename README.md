@@ -18,23 +18,6 @@ reactive.
 Imagine you have some blog posts state, have a websocket connection which receives new blog posts. You can directly push these posts into the state from an
 entirely different class/location.
 
-## Getting Started
-
-- [Installing](#installing-the-package)
-- [Configuring Webpack](#configuring-webpack)
-- [Plugin Configuration](#plugin-configuration)
-- [Generating Store Plugin/Files](#generate-plugin/store-files)
-- [Final Setup Steps](#final-setup-steps)
-  - [Vue 2](#vue-2)
-  - [Vue 3](#vue-3)
-- [How to work with the stores?](#how-to-work-with-the-stores?)
-  - [Creating a store](#creating-a-store)
-  - [Using the store in your components](#using-the-store-in-your-components)
-    - [Using the store in your components](#sfc-script)
-    - [Using the store in your components](#sfc-html)
-  - [Using the store from outside components](#using-the-store-from-outside-components)
-  - [Persisted Stores](#persisted-stores)
-
 ## I rewrote a lot of this plugin a while back and totally forgot to re-write docs...
 At some point I will do it properly, but for the most part, I separated a lot of the logic into separate packages... It was causing issues due to the need to support vite + webpack
 
@@ -136,6 +119,22 @@ You can also use your stores globally from any class
 npm install webpack-plugin-vue-class-stores vue-class-stores vue-class-stores-generators
 ```
 
+## Getting Started
+
+- [Installing](#installing-the-package)
+- [Configuring Webpack](#configuring-webpack)
+- [Plugin Configuration](#plugin-configuration)
+- [Generating Store Plugin/Files](#generate-plugin/store-files)
+- [Final Setup Steps](#final-setup-steps)
+  - [Vue 2](#vue-2)
+  - [Vue 3](#vue-3)
+- [How to work with the stores?](#how-to-work-with-the-stores?)
+  - [Creating a store](#creating-a-store)
+  - [Using the store in your components](#using-the-store-in-your-components)
+    - [Using the store in your components](#sfc-script)
+    - [Using the store in your components](#sfc-html)
+  - [Using the store from outside components](#using-the-store-from-outside-components)
+  - [Persisted Stores](#persisted-stores)
 
 ## Installing the package
 
