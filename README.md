@@ -40,7 +40,7 @@ viteVueClassStoresPlugin({
 }),
 ```
 
-In *src/Stores* Create a store class:
+In **src/Stores** Create a store class:
 ```ts
 import {Store} from "./Plugin/Store";
 
@@ -77,7 +77,7 @@ const app = createApp(App);
 app.use(VueClassStoresPlugin);
 ```
 
-**Note: There is also a vue devtools plugin for viewing your stores:
+**Note: There is also a vue devtools plugin for viewing your stores:**
 ```shell
 npm install class-stores-plugin
 ```
